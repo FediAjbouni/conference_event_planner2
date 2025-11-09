@@ -342,8 +342,9 @@ nav {
 .left_navbar {
   width: 60vw;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 .nav_links a {
   text-decoration: none;

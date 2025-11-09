@@ -6,9 +6,17 @@ import AboutUs from "./AboutUs";
 
 function App() {
   const [showVenue, setShowVenue] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleGetStarted = () => {
     setShowVenue(true);
+  };
+
+  const handleShowDetails = () => {
+    if (!showVenue) {
+      setShowVenue(true);
+    }
+    setShowDetails(true);
   };
 
   const navigateToProducts = (idType, e) => {
@@ -53,7 +61,9 @@ function App() {
             <a href="#addons" onClick={(e) => navigateToProducts('#addons', e)}>Add-ons</a>
             <a href="#meals" onClick={(e) => navigateToProducts('#meals', e)}>Meals</a>
           </div>
-
+          <button className="details_button" onClick={handleShowDetails}>
+            Show Details
+          </button>
         </div>
       </nav>
 
@@ -75,7 +85,7 @@ function App() {
       </header>
 
       <div className={`event-list-container ${showVenue ? 'visible' : ''}`}>
-        <ConferenceEvent showNavbar={false} />
+        <ConferenceEvent showNavbar={false} showDetails={showDetails} setShowDetails={setShowDetails} />
       </div>
     </>
   );

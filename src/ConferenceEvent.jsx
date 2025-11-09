@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { incrementQuantity, decrementQuantity } from "./venueSlice";
 import { incrementAvQuantity, decrementAvQuantity } from "./avSlice";
 import { toggleMealSelection } from "./mealsSlice";
-const ConferenceEvent = ({ showNavbar = true }) => {
-    const [showItems, setShowItems] = useState(false);
+const ConferenceEvent = ({ showNavbar = true, showDetails = false, setShowDetails = null }) => {
+    const [showItems, setShowItems] = useState(showDetails);
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [errors, setErrors] = useState({});
     const [showNotification, setShowNotification] = useState(false);
@@ -64,13 +64,22 @@ const ConferenceEvent = ({ showNavbar = true }) => {
         if (!showItems) {
             if (validateSelection()) {
                 setShowItems(true);
+                if (setShowDetails) setShowDetails(true);
             } else {
                 showNotificationMessage("Please select at least one venue before viewing details");
             }
         } else {
             setShowItems(false);
+            if (setShowDetails) setShowDetails(false);
         }
     };
+
+    // Sync with parent state
+    React.useEffect(() => {
+        if (showDetails !== showItems) {
+            setShowItems(showDetails);
+        }
+    }, [showDetails]);
 
     const handleAddToCart = (index) => {
         if (venueItems[index].name === "Auditorium Hall (Capacity:200)" && venueItems[index].quantity >= 3) {
